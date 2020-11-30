@@ -32,7 +32,7 @@ export default ({ children, location: { pathname }, }) => {
       backgroundColor: '#F5F5F5'
     });
   }, [pathname])
-
+console.log(pathname)
   return (
     <div style={{ minHeight: '100vh', backgroundColor: template?.backgroundColor || '' }}>
       <NavBar style={{ backgroundColor: template?.navbar?.backgroundColor || '', color: template?.navbar?.color || '', display: template?.navbar?.display || 'flex' }}>{template?.navbar?.title || template?.name || ''}</NavBar>
