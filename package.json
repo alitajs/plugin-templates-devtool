@@ -1,6 +1,6 @@
 {
   "name": "umi-plugin-templates-devtool",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "alita templates 的开发辅助工具",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -9,7 +9,7 @@
   ],
   "scripts": {
     "build": "father-build",
-    "publish": "npm publish --access public",
+    "publish": "npm publish",
     "prepublishOnly": "father-build"
   },
   "repository": {
