@@ -6,9 +6,9 @@ import getIndexContent from './utils/getIndexContent';
 
 const { chalk } = utils;
 
-if (!process.env.PAGES_PATH) {
-  process.env.PAGES_PATH = 'src';
-}
+// if (!process.env.PAGES_PATH) {
+//   process.env.PAGES_PATH = 'src';
+// }
 
 interface TemplateConfig {
   name?: string;
@@ -61,7 +61,11 @@ const getRoutes = (api, cwd, blocks, blockPath) => {
 export default (api: IApi) => {
   const { paths } = api;
   const cwd = paths.cwd || process.cwd();
-  const blockPath = process.argv.slice(2)[1];
+  // @ant-design/pro-cli 里面的目录是 `${path}/src` 这里手动去掉 `/src`
+  if (process.env.PAGES_PATH) {
+    process.env.PAGES_PATH = process.env.PAGES_PATH.split('/')[0];
+  }
+  const blockPath = process.env.PAGES_PATH || process.argv.slice(2)[1];
   let templatesConfig = {} as { [key: string]: TemplateConfig };
   let blcoks = [];
   if (blockPath) {
