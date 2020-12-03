@@ -2,7 +2,8 @@
 export default (
   templatesConfig,
 ) => `import React, { useState, useEffect } from 'react';
-import { NavBar } from 'antd-mobile';
+import { NavBar, Icon } from 'antd-mobile';
+import { history } from 'alita';
 
 interface TemplateConfig {
   name?: string;
@@ -32,10 +33,10 @@ export default ({ children, location: { pathname }, }) => {
       backgroundColor: '#F5F5F5'
     });
   }, [pathname])
-console.log(pathname)
+  const isHome = pathname === '/';
   return (
     <div style={{ minHeight: '100vh', backgroundColor: template?.backgroundColor || '' }}>
-      <NavBar style={{ backgroundColor: template?.navbar?.backgroundColor || '', color: template?.navbar?.color || '', display: template?.navbar?.display || 'flex' }}>{template?.navbar?.title || template?.name || ''}</NavBar>
+      <NavBar icon={<Icon type="left" />} onLeftClick={() => !isHome && history.goBack()} style={{ backgroundColor: template?.navbar?.backgroundColor || '', color: template?.navbar?.color || '', display: template?.navbar?.display || 'flex' }}>{template?.navbar?.title || template?.name || ''}</NavBar>
       {children}
     </div>
   );

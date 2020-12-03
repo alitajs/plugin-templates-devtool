@@ -142,10 +142,24 @@ export default (api: IApi) => {
         "previewUrl": `https://templates.alitajs.com/#/${pathName}`
       }
     }
+    // 按分类整理数据
+    const sortListByType = (data)=>{
+      const hashData = { };
+      data.forEach(item => {
+        if(!hashData[item.tplType]){
+          hashData[item.tplType] = {}
+        }
+        if(!hashData[item.tplType][item.tplSubType]){
+          hashData[item.tplType][item.tplSubType] = []
+        }
+        hashData[item.tplType][item.tplSubType].push(item);
+      });
+      return hashData;
+    }
     const content = JSON.stringify({
-      list: blcoks.map(block => {
+      data: sortListByType(blcoks.map(block => {
         return getTemplateJson(block)
-      })
+      }))
     });
     const target = join(
       api?.paths?.cwd!,
