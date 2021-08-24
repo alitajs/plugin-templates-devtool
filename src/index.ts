@@ -58,6 +58,19 @@ const getRoutes = (api, cwd, blocks, blockPath) => {
   }))]
 }
 
+const renderTpl = (tpl = '', data = {}) => {
+  let result = tpl;
+  let matches;
+  do {
+    const re = /{{(.*?)}}/g;
+    matches = re.exec(result);
+    if (matches) {
+      result = result.replace(matches[0], data[matches[1]] || '');
+    }
+  } while (matches);
+  return result
+}
+
 export default (api: IApi) => {
   const { paths } = api;
   const cwd = paths.cwd || process.cwd();
@@ -130,7 +143,7 @@ export default (api: IApi) => {
     // 编译完成，在根目录生成 templates.json
     const getTemplateJson = (pathName) => {
       const templateConfig = templatesConfig[`/${pathName.toLowerCase()}`];
-      return {
+      const config = {
         "key": pathName,
         "name": templateConfig.name,
         "description": templateConfig.description,
@@ -140,7 +153,14 @@ export default (api: IApi) => {
         "tplType": templateConfig.tplType,
         "tplSubType": templateConfig.tplSubType,
         "previewUrl": `https://templates.alitajs.com/#/${pathName}`
+      };
+      const tplLookup = require(join(cwd, 'package.json')).templateTpl;
+      if (typeof tplLookup === 'object' && !!tplLookup) {
+        Object.keys(tplLookup).forEach(key => {
+          config[key] = renderTpl(tplLookup[key], { pathName });
+        });
       }
+      return config;
     }
     // 按分类整理数据
     const sortListByType = (data)=>{
