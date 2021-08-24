@@ -1,6 +1,6 @@
 {
   "name": "umi-plugin-templates-devtool",
-  "version": "0.0.7",
+  "version": "0.1.0",
   "description": "alita templates 的开发辅助工具",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
